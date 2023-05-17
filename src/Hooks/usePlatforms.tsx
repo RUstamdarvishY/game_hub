@@ -11,6 +11,7 @@ export interface Platform {
   slug: string;
 }
 
+
 const usePlatforms = () =>
   useQuery({
     queryKey: ["platforms"],

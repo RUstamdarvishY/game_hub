@@ -3,12 +3,23 @@ import { GetResponse } from "../services/ApiClient";
 import ApiClient from "../services/ApiClient";
 import { Platform } from "./usePlatforms";
 import useGameQueryStore from "../store";
+import { Genre } from "./useGenres";
 
 const apiClient = new ApiClient<Game>("/games");
+
+interface Publisher{
+  id: number;
+  name: string;
+}
+
 
 export interface Game {
   id: number;
   name: string;
+  slug: string;
+  genres: Genre[];
+  publishers: Publisher[];
+  description_raw: string;
   background_image: string;
   parent_platforms: { platform: Platform }[];
   metacritic: number;
@@ -16,7 +27,7 @@ export interface Game {
 }
 
 const useGames = () => {
-  const gameQuery = useGameQueryStore(s => s.gameQuery);
+  const gameQuery = useGameQueryStore((s) => s.gameQuery);
 
   return useInfiniteQuery<GetResponse<Game>, Error>({
     queryKey: ["games", gameQuery],

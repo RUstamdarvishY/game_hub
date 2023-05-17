@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { GameQuery } from "../App";
+import { GameQuery } from '../store';
 
 export interface GetResponse<T> {
   count: number;
@@ -26,6 +26,12 @@ class ApiClient<T> {
   getAll = (config: AxiosRequestConfig) => {
     return axiosInstance
       .get<GetResponse<T>>(this.endpoint, config)
+      .then((response) => response.data);
+  };
+
+  get = (id: number | string) => {
+    return axiosInstance
+      .get<T>(this.endpoint + "/" + id)
       .then((response) => response.data);
   };
 }
