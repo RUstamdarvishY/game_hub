@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { GameQuery } from "../App";
 import { GetResponse } from "../services/ApiClient";
 import ApiClient from "../services/ApiClient";
 import { Platform } from "./usePlatforms";
+import useGameQueryStore from "../store";
 
 const apiClient = new ApiClient<Game>("/games");
 
@@ -15,7 +15,9 @@ export interface Game {
   rating_top: number;
 }
 
-const useGames = (gameQuery: GameQuery) => {
+const useGames = () => {
+  const gameQuery = useGameQueryStore(s => s.gameQuery);
+
   return useInfiniteQuery<GetResponse<Game>, Error>({
     queryKey: ["games", gameQuery],
     queryFn: ({ pageParam = 1 }) =>
